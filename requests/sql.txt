@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS ShopClickUrl DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+create table ShopClickUrl
+(
+    id int auto_increment primary key,
+    shoptitle varchar(50),
+    orimemberid varchar(20),
+    clickurl varchar(300),
+    memberid varchar(20),
+    shopurl varchar(100)
+
+);

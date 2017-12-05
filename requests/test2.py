@@ -22,6 +22,16 @@ def get_cookie():
 s = requests.Session()
 
 
+#连接Mysql
+db=MySQLdb.connect(host="127.0.0.1",user="root",passwd="Aa123456",db="tbk",charset="utf8")
+cursor = db.cursor()
+
+sql = "select orimemberid from shoplink"
+cursor.execute(sql)
+results = cursor.fetchall()
+
+print results
+
 headers = {
     'Accept':'application/json, text/javascript, */*; q=0.01',
     'Accept-Encoding': 'gzip, deflate',
@@ -36,57 +46,35 @@ headers = {
     'X-Requested-With': 'XMLHttpRequest'
     }
 
-db = MySQLdb.connect(host="127.0.0.1", user="root", passwd="Aa123456", db="tbk", charset="utf8")
-cursor = db.cursor()
 
-for i in range(3,101):
-    url = 'http://pub.alimama.com/shopsearch/shopList.json?q=%E6%97%97%E8%88%B0%E5%BA%97&toPage={}&perPagesize=100&_input_charset=utf-8'.format(i)
 
+for orimemberid2 in results:
+    orimemberid = orimemberid2[0]
+    url = 'https://pub.alimama.com/common/code/getShopCode.json?orimemberid={}&adzoneid=65078952&siteid=18272447&_input_charset=utf-8'.format(orimemberid)
 
     resp = s.get(url, headers = headers, cookies = get_cookie())
     html = resp.content
 
-
-
-    #print html
-    #将获取到的页面源码写入zhihu.html文件中
-    #with open('/data/tbk/requests/geturl.txt','w') as fl:
-    #    fl.write(html)
-
-
     a_json = json.loads(html)
 
-    shoplist = a_json['data']['pagelist']
+    #clickurl = a_json['data']['clickUrl']
 
-    #print a_json['data']['pagelist'][0]['shopTitle']
-    #print  '=>'
-    #print a_json['data']['pagelist'][0]['shopUrl']
+    print  a_json
 
-
-    #连接Mysql
+    #sqla = "insert into shoplink(clickurl) values{} WHERE orimemberid = {}".format(clickurl,orimemberid)
 
 
-    for shop in shoplist:
-        #print shop['shopTitle']
-
-        shoptitle = shop['shopTitle']
-        orimemberid = shop['oriMemberId']
-        memberid = shop['memberID']
-        shopurl = shop['shopUrl']
-
-        #time.sleep(random.randint(2, 5))
-
-
-        #写入
-        sql = "insert into ShopClickUrl(shoptitle,orimemberid,memberid,shopurl) values(%s,%s,%s,%s)"
-        param = (shoptitle,orimemberid,memberid,shopurl)
-        cursor.execute(sql,param)
-
-
-    # 关闭
-    db.commit()
-
+    #cursor.execute(sql)
     time.sleep(random.randint(10, 20))
 
+    # param = (clickurl,orimemberid)
+
+    # cursor.execute(sql,param)
+
+
+# 关闭
 cursor.close()
+
+db.commit()
+
 db.close()
