@@ -27,7 +27,9 @@ db=MySQLdb.connect(host="127.0.0.1",user="root",passwd="Aa123456",db="tbk",chars
 cursor = db.cursor()
 
 sql = "select orimemberid from ShopClickUrl"
-results = cursor.execute(sql)
+cursor.execute(sql)
+
+results = cursor.fetchall()
 
 headers = {
     'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -43,7 +45,7 @@ headers = {
     'X-Requested-With': 'XMLHttpRequest'
     }
 
-
+#print results
 
 for orimemberid2 in results:
     orimemberid = orimemberid2[0]
@@ -54,19 +56,22 @@ for orimemberid2 in results:
 
     a_json = json.loads(html)
 
+    print a_json
+
     clickurl = a_json['data']['clickUrl']
 
-    sqla = "insert into ShopClickUrl(clickurl) values(%s) WHERE orimemberid = orimemberid"
+    sql = "insert ignore into temp(orimemberid,clickurl) values (%s,%s)"
 
-    param = (clickurl)
+    param = (orimemberid, clickurl)
 
     cursor.execute(sql,param)
 
-
+    time.sleep(random.randint(50, 60))
+    db.commit()
 
 # 关闭
 cursor.close()
 
-db.commit()
+
 
 db.close()
