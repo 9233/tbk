@@ -30,7 +30,7 @@ sql = "select orimemberid from shoplink"
 cursor.execute(sql)
 results = cursor.fetchall()
 
-print results
+#print results
 
 headers = {
     'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -57,15 +57,25 @@ for orimemberid2 in results:
 
     a_json = json.loads(html)
 
-    #clickurl = a_json['data']['clickUrl']
+    click_url = a_json['data']['clickUrl']
 
-    print  a_json
+    #print  a_json
 
+    print  click_url
     #sqla = "insert into shoplink(clickurl) values{} WHERE orimemberid = {}".format(clickurl,orimemberid)
 
 
+
+    sql = "insert into temp(orimemberid,clickurl) values (%s,%s)"
+
+    param = (orimemberid,click_url)
+
+    cursor.execute(sql,param)
+
+    db.commit()
+
     #cursor.execute(sql)
-    time.sleep(random.randint(10, 20))
+    time.sleep(random.randint(20, 50))
 
     # param = (clickurl,orimemberid)
 

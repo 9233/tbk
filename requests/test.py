@@ -13,7 +13,7 @@ sys.setdefaultencoding("utf-8")
 db=MySQLdb.connect(host="127.0.0.1",user="root",passwd="Aa123456",db="tbk",charset="utf8")
 cursor = db.cursor()
 
-sql = "select orimemberid from ShopClickUrl"
+sql = "select orimemberid from shoplink"
 cursor.execute(sql)
 
 results = cursor.fetchall()

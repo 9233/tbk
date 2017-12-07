@@ -39,7 +39,7 @@ headers = {
 db = MySQLdb.connect(host="127.0.0.1", user="root", passwd="Aa123456", db="tbk", charset="utf8")
 cursor = db.cursor()
 
-for i in range(3,101):
+for i in range(1,101):
     url = 'http://pub.alimama.com/shopsearch/shopList.json?q=%E6%97%97%E8%88%B0%E5%BA%97&toPage={}&perPagesize=100&_input_charset=utf-8'.format(i)
 
 
@@ -86,7 +86,7 @@ for i in range(3,101):
     # 关闭
     db.commit()
 
-    time.sleep(random.randint(10, 20))
+    time.sleep(random.randint(10, 30))
 
 cursor.close()
 db.close()
