@@ -1,0 +1,7 @@
+复制表
+INSERT IGNORE INTO `table_1` (`name`) SELECT `name` FROM `table_2`; 
+
+
+
+如果是用主键primary或者唯一索引unique区分了记录的唯一性,避免重复插入记录可以使用：
+ INSERT IGNORE INTO `table_name` (`email`, `phone`, `user_id`) VALUES ('test9@163.com', '99999', '9999'); 
