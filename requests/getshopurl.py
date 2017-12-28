@@ -26,10 +26,25 @@ s = requests.Session()
 db=MySQLdb.connect(host="127.0.0.1",user="root",passwd="Aa123456",db="tbk",charset="utf8")
 cursor = db.cursor()
 
-sql = "select orimemberid from ShopClickUrl"
-cursor.execute(sql)
+#sql = "select orimemberid from ShopClickUrl"
+#cursor.execute(sql)
 
+#results = cursor.fetchall()
+
+
+
+#print results
+#sql2 = "select orimemberid from temp"
+#cursor.execute(sql2)
+#tempresults = cursor.fetchall()
+
+
+sql3 = "select orimemberid from ShopClickUrl where orimemberid not in (select orimemberid from temp)"
+cursor.execute(sql3)
 results = cursor.fetchall()
+
+
+
 
 headers = {
     'Accept':'application/json, text/javascript, */*; q=0.01',
@@ -45,14 +60,17 @@ headers = {
     'X-Requested-With': 'XMLHttpRequest'
     }
 
-#print results
 
 for orimemberid2 in results:
     orimemberid = orimemberid2[0]
+
+    print orimemberid
     url = 'https://pub.alimama.com/common/code/getShopCode.json?orimemberid={}&adzoneid=65078952&siteid=18272447&_input_charset=utf-8'.format(orimemberid)
 
     resp = s.get(url, headers = headers, cookies = get_cookie())
     html = resp.content
+
+    print html
 
     a_json = json.loads(html)
 
@@ -66,7 +84,7 @@ for orimemberid2 in results:
 
     cursor.execute(sql,param)
 
-    time.sleep(random.randint(50, 60))
+    time.sleep(random.randint(60, 80))
     db.commit()
 
 # 关闭

@@ -45,7 +45,7 @@ if currurl=='https://www.alimama.com/index.htm':
     f = file("/data/tbk/requests/almmck.txt", "w+")
     f.writelines(cookiestr)
     f.close()
-    time.sleep(random.randint(10, 60))
+    time.sleep(random.randint(60, 80))
     driver.quit()
 else:
     #登录失败，需要模拟拖动滑块验证

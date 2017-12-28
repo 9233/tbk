@@ -9,3 +9,25 @@ create table ShopClickUrl
     shopurl varchar(100)
 
 );
+
+
+
+
+select   a.*,b.*   from   a   inner   join   b     on   a.id=b.parent_id
+
+select   a.*,b.*   from   a   left   join   b     on   a.id=b.parent_id
+
+select   ShopClickUrl.*,temp.*   from   ShopClickUrl   inner   join   temp     on   ShopClickUrl.orimemberid=temp.orimemberid
+
+
+select   ShopClickUrl.*,temp.*   from   ShopClickUrl   left   join   temp     on   ShopClickUrl.orimemberid=temp.orimemberid
+
+
+select ShopClickUrl.orimemberid,ShopClickUrl.shoptitle,temp.clickurl from ShopClickUrl left join temp on ShopClickUrl.orimemberid=temp.orimemberid
+
+select temp.clickurl from ShopClickUrl left join temp on ShopClickUrl.orimemberid=temp.orimemberid
+
+
+INSERT INTO `ShopClickUrl`(`clickurl`) select clickurl from ShopClickUrl left join temp on ShopClickUrl.orimemberid=temp.orimemberid
+
+INSERT INTO ShopClickUrl (`clickurl`) SELECT clickurl FROM temp WHERE NOT EXISTS ( SELECT * FROM temp WHERE ShopClickUrl.orimemberid=temp.orimemberid);
