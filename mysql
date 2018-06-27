@@ -1,3 +1,13 @@
+update ShopClickUrl set ShopClickUrl.clickurl = (select temp.clickurl from temp where temp.orimemberid = ShopClickUrl.orimemberid);
+
+
+
+
+
+
+
+
+
 复制表
 INSERT IGNORE INTO `table_1` (`name`) SELECT `name` FROM `table_2`; 
 
